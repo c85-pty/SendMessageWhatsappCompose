@@ -10,9 +10,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,11 +35,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultAlpha
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
@@ -49,6 +62,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        //var txt: String = "UTP Android - Ingeniería de Software 2025"
+        var txt: String = ""
+
         setContent {
             SendMessageWhatsappTheme {
 
@@ -58,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
                     Scaffold(
 
-                        topBar = {
+                        /*topBar = {
 
                             TopAppBar(
                                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -68,17 +85,20 @@ class MainActivity : ComponentActivity() {
 
                                 title = {
                                     Text(
-                                        text = "UTP\nAndroid - Ingeniería de Software 2025",
+                                        text = txt,
                                         modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
                                         color = Color.White
                                     )
                                 })
-                        }) {
+                        }*/
+
+                    ) {
 
                         sendWhatsAppMessage(context = LocalContext.current)
 
                     }
+
                 }
             }
         }
@@ -105,74 +125,122 @@ fun sendWhatsAppMessage(context: Context) {
         verticalArrangement = Arrangement.Center,
     ) {
 
-        Text(
+        val painter = painterResource(id = R.drawable.sendmessagewhatssapp1)
 
-            text = "Enviar Mensaje a WhatsApp",
-            color = greenColor,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        TextField(
-
-            value = phoneNumber.value,
-
-            onValueChange = { phoneNumber.value = it },
-
-            placeholder = { Text(text = "Ingrese el # de Contacto a Enviar") },
-
+        /*ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 12.dp
+            ),
             modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-
-            textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-
-            singleLine = true,
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextField(
-
-            value = message.value,
-
-            onValueChange = { message.value = it },
-
-            placeholder = { Text(text = "Ingrese su mensaje") },
-
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-
-            textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
-
-            singleLine = true,
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        java.lang.String.format(
-                            "https://api.whatsapp.com/send?phone=%s&text=%s",
-                            phoneNumber.value,
-                            message.value
-                        ).toUri()
-                    )
-                )
-            },
-
-            modifier = Modifier
+                .fillMaxSize()
                 .fillMaxWidth()
-                .padding(10.dp)
-        ) {
+                .padding(top = 150.dp, bottom = 100.dp)
+        ) {*/
 
-            Text(text = "Enviar Mensaje a WhatsApp")
-        }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+
+                    .padding(all = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+
+                Image(
+                    painter,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .height(400.dp)
+                        .width(500.dp)
+                    //.padding(25.dp)
+                    //.border(2.dp, Color.White, CircleShape)
+
+                    , alignment = Alignment.Center,
+
+                    contentScale = ContentScale.Fit,
+
+                    alpha = DefaultAlpha,
+                )
+
+                Text(
+
+                    text = "Enviar Mensaje a WhatsApp",
+                    color = greenColor,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                TextField(
+
+                    value = phoneNumber.value,
+
+                    onValueChange = { phoneNumber.value = it },
+
+                    placeholder = { Text(text = "Ingrese el # de Contacto a Enviar") },
+
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+
+                    textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+
+                    singleLine = true,
+
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    )
+
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                TextField(
+
+                    value = message.value,
+
+                    onValueChange = { message.value = it },
+
+                    placeholder = { Text(text = "Ingrese su mensaje") },
+
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+
+                    textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+
+                    singleLine = true,
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = {
+
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                java.lang.String.format(
+                                    "https://api.whatsapp.com/send?phone=%s&text=%s",
+                                    phoneNumber.value,
+                                    message.value
+                                ).toUri()
+                            )
+                        )
+                    },
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+
+                    Text(text = "Enviar Mensaje a WhatsApp")
+                }
+
+            }
+
+        //}
+
+
     }
 }
 
@@ -192,3 +260,39 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
+/*
+@Preview(showBackground = true)
+@Composable
+fun SendMessageWhatsappPreview(){
+    SendMessageWhatsappTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.primary
+        ) {
+
+            Scaffold(
+
+                topBar = {
+
+                    TopAppBar(
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+
+                        title = {
+                            Text(
+                                text = "UTP\nAndroid - Ingeniería de Software 2025",
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                color = Color.White
+                            )
+                        })
+                }) {
+
+                sendWhatsAppMessage(context = LocalContext.current)
+
+            }
+        }
+    }
+}*/
